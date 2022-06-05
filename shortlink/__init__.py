@@ -3,6 +3,8 @@
 
 
 from flask import Flask, json
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import HTTPException
 
@@ -10,6 +12,8 @@ from shortlink.config import DevelopmentConfig
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig())
+
+limiter = Limiter(app, key_func=get_remote_address)
 
 db = SQLAlchemy()
 db.init_app(app)

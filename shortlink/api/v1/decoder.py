@@ -1,3 +1,7 @@
+# Copyright (c) 2022, hrwx
+# License: MIT. See LICENSE
+
+
 from datetime import datetime
 from typing import Dict, Optional
 

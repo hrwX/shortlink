@@ -6,12 +6,13 @@ from typing import Dict
 
 from flask import request
 
-from shortlink import app
+from shortlink import app, limiter
 from shortlink.api.v1.decoder import Decoder
 from shortlink.api.v1.encoder import Encoder
 
 
 @app.route("/api/v1/encode", methods=["POST"])
+@limiter.limit("10/second", override_defaults=False)
 def encode() -> Dict[str, str]:
 	encoder = Encoder(
 		url=request.args.get("url"),
@@ -23,6 +24,7 @@ def encode() -> Dict[str, str]:
 
 
 @app.route("/api/v1/decode", methods=["GET"])
+@limiter.limit("10/second", override_defaults=False)
 def decode() -> Dict[str, str]:
 	decoder = Decoder(url=request.args.get("url"))
 
