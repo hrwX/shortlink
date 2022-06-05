@@ -2,13 +2,18 @@
 # License: MIT. See LICENSE
 
 
-class InvalidURLException(Exception):
+from werkzeug.exceptions import HTTPException
+
+
+class InvalidURLException(HTTPException):
 	"""Raised when the URL is invalid."""
 
-	pass
+	code = 400
+	description = "The URL posted for shortening, is invalid."
 
 
-class URLDoesNotExistException(Exception):
+class URLDoesNotExistException(HTTPException):
 	"""Raised when the ShortLink URL doesn't exist."""
 
-	pass
+	code = 404
+	description = "The requested ShortLink URL does not exist."

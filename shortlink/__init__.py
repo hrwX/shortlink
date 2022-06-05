@@ -2,10 +2,11 @@
 # License: MIT. See LICENSE
 
 
-from flask import Flask
+from flask import Flask, json
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.exceptions import HTTPException
 
-from .config import DevelopmentConfig
+from shortlink.config import DevelopmentConfig
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig())
@@ -26,3 +27,21 @@ with app.app_context():
 # Not actually using the views in __init__.py, just ensuring the module is imported.
 # ref: https://flask.palletsprojects.com/en/2.1.x/patterns/packages/
 from shortlink.routes import *	# fmt: off
+
+
+@app.errorhandler(HTTPException)
+def handle_exception(exception):
+	"""Return JSON instead of HTML for HTTP errors."""
+	response = exception.get_response()
+	response.data = json.dumps(
+		{
+			"error": {
+				"code": exception.code,
+				"name": exception.name,
+				"description": exception.description,
+			}
+		}
+	)
+	response.content_type = "application/json"
+
+	return response
