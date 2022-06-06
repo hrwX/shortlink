@@ -19,7 +19,7 @@ class Encoder:
 		self.long_url = url
 		self.hash_length = length or 8
 		self.creation = datetime.now()
-		self.expiry = expiry or self.default_expiry
+		self.expiry = self.get_expiry(expiry)
 
 	def get_short_url(self) -> Dict[str, str]:
 		existing_url = self.get_existing_short_url()
@@ -58,6 +58,8 @@ class Encoder:
 			"creation": kwargs.get("creation") or self.creation,
 		}
 
-	@property
-	def default_expiry(self) -> datetime:
+	def get_expiry(self, expiry: str) -> datetime:
+		if expiry:
+			return datetime.fromisoformat(expiry)
+
 		return self.creation + timedelta(days=7)

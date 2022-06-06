@@ -49,3 +49,18 @@ class TestAPI(unittest.TestCase):
 		self.assertEqual(response.status_code, 404)
 		self.assertTrue(data.get("error"))
 		self.assertEqual(data.get("error", {}).get("code"), 404)
+
+	def test_expired_url(self):
+		self.client.post(
+			"/api/v1/encode",
+			query_string={"url": "www.youtube.com", "expiry": "2021-12-19 10:10:10"},
+		)
+
+		response = self.client.get(
+			"/api/v1/decode", query_string={"url": "www.short.link/5553e34b"}
+		)
+		data = json.loads(response.data or "{}")
+
+		self.assertEqual(response.status_code, 404)
+		self.assertTrue(data.get("error"))
+		self.assertEqual(data.get("error", {}).get("code"), 404)
