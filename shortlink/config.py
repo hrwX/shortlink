@@ -58,5 +58,5 @@ def get_config(
 		"development": DevelopmentConfig,
 		"testing": TestingConfig,
 	}
-	print("config_type", config_type)
+
 	return config_types.get(config_type, "development")()
