@@ -8,6 +8,7 @@ from os.path import dirname, realpath
 
 def run_test_suite():
 	"""Runs the unit tests without coverage."""
+
 	folder = dirname(realpath(__file__))
 	tests = unittest.TestLoader().discover(folder, pattern="test_*")
 

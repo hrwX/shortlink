@@ -12,18 +12,18 @@ from shortlink.tests.runner import run_test_suite
 
 @click.group()
 @click.pass_context
-def main(ctx):
+def main(ctx) -> None:
 	if len(sys.argv) == 1:
 		click.echo(ctx.get_help())
 
 
-@main.command("start-app", help="Start ShortLink Service.")
-def start_app():
+@main.command("start-dev", help="Start ShortLink Service.")
+def start_app() -> None:
 	app.run(debug=True)
 
 
 @main.command("run-tests", help="Start ShortLink Service.")
-def run_tests():
+def run_tests() -> None:
 	run_test_suite()
 
 

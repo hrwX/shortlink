@@ -2,6 +2,9 @@
 # License: MIT. See LICENSE
 
 
+from typing import Union
+
+
 class Config:
 	"""
 	Base Configuration Class for
@@ -30,6 +33,30 @@ class DevelopmentConfig(Config):
 
 	FLASK_ENV = "DEVELOPMENT"
 	DEBUG = True
+	TESTING = False
+	DATABASE = "SQLite"
+	SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
+
+class TestingConfig(Config):
+	"""
+	Configuration for Developement Environment
+	"""
+
+	FLASK_ENV = "TESTING"
+	DEBUG = True
 	TESTING = True
 	DATABASE = "SQLite"
 	SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
+
+def get_config(
+	config_type: str,
+) -> Union[ProductionConfig, DevelopmentConfig, TestingConfig]:
+	config_types = {
+		"production": ProductionConfig,
+		"development": DevelopmentConfig,
+		"testing": TestingConfig,
+	}
+	print("config_type", config_type)
+	return config_types.get(config_type, "development")()
