@@ -12,7 +12,7 @@ class Config:
 
 	STATIC_FOLDER = "static"
 	TEMPLATES_FOLDER = "templates"
-	BASE_URL = "www.short.link"
+	BASE_URL = "www.short.est"
 
 
 class ProductionConfig(Config):
